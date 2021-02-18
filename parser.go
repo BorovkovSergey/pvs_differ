@@ -33,12 +33,12 @@ func parse(path string) Alertions {
 			currentAllertionFileName := strings.Split(scanner.Text(), ":")[0]
 			alertionPos := res.findIndexByName(currentAllertionFileName)
 			if alertionPos != -1 {
-				res[alertionPos].text = append(res[alertionPos].text, strings.Split(scanner.Text(), seporator)[1])
+				res[alertionPos].text = append(res[alertionPos].text, seporator+strings.Split(scanner.Text(), seporator)[1])
 				res[alertionPos].strNumbers = append(res[alertionPos].strNumbers, strings.Split(scanner.Text(), ":")[1])
 			} else {
 				res = append(res, Alertion{
 					fileName:   currentAllertionFileName,
-					text:       []string{strings.Split(scanner.Text(), seporator)[1]},
+					text:       []string{seporator + strings.Split(scanner.Text(), seporator)[1]},
 					strNumbers: []string{strings.Split(scanner.Text(), ":")[1]},
 				})
 			}
