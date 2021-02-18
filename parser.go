@@ -8,13 +8,14 @@ import (
 	"strings"
 )
 
-func parse(path string, alertions *Alertions) {
+func parse(path string) Alertions {
 	file, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
+	res := Alertions{}
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		if scanner.Text() == ".Unicode.empty()." {
@@ -30,12 +31,12 @@ func parse(path string, alertions *Alertions) {
 
 		if sepPos > -1 {
 			currentAllertionFileName := strings.Split(scanner.Text(), ":")[0]
-			alertionPos := alertions.findIndexByName(currentAllertionFileName)
+			alertionPos := res.findIndexByName(currentAllertionFileName)
 			if alertionPos != -1 {
-				(*alertions)[alertionPos].text = append((*alertions)[alertionPos].text, strings.Split(scanner.Text(), seporator)[1])
-				(*alertions)[alertionPos].strNumbers = append((*alertions)[alertionPos].strNumbers, strings.Split(scanner.Text(), ":")[1])
+				res[alertionPos].text = append(res[alertionPos].text, strings.Split(scanner.Text(), seporator)[1])
+				res[alertionPos].strNumbers = append(res[alertionPos].strNumbers, strings.Split(scanner.Text(), ":")[1])
 			} else {
-				*alertions = append(*alertions, Alertion{
+				res = append(res, Alertion{
 					fileName:   currentAllertionFileName,
 					text:       []string{strings.Split(scanner.Text(), seporator)[1]},
 					strNumbers: []string{strings.Split(scanner.Text(), ":")[1]},
@@ -49,4 +50,5 @@ func parse(path string, alertions *Alertions) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	return res
 }

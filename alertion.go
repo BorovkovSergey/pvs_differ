@@ -11,6 +11,7 @@ type Alertion struct {
 	fileName   string
 	text       Strings
 	strNumbers Strings
+	isError    bool
 }
 
 func (e Alertions) findIndexByName(name string) int {

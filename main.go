@@ -14,10 +14,8 @@ func main() {
 	originalFile := os.Args[1]
 	newFile := os.Args[2]
 
-	oldAlertions := Alertions{}
-	parse(originalFile, &oldAlertions)
-	newAlertions := Alertions{}
-	parse(newFile, &newAlertions)
+	oldAlertions := parse(originalFile)
+	newAlertions := parse(newFile)
 
 	diffAlertions := oldAlertions.MakeAlertionsDiff(newAlertions)
 	count := 0
